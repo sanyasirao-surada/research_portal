@@ -1,70 +1,67 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>All Publications</h1>
+  <h1>Upload a New Publication</h1>
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
 
-  {% if publications %}
-    <table class="pub-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Title</th>
-          <th>Authors</th>
-          <th>Journal / Conference</th>
-          <th>Year</th>
-          <th>DOI</th>
-          <th>Abstract</th>
-          <th>PDF</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for pub in publications %}
-          <tr>
-            <td>{{ loop.index }}</td>
-            <td>{{ pub.title }}</td>
-            <td>{{ pub.authors }}</td>
-            <td>{{ pub.journal }}</td>
-            <td>{{ pub.year }}</td>
-            <td>
-              {% if pub.doi %}
-                <a href="https://doi.org/{{ pub.doi }}" target="_blank">{{ pub.doi }}</a>
-              {% else %}
-                N/A
-              {% endif %}
-            </td>
-            <td>
-              {% if pub.abstract %}
-                <button class="btn-small" onclick="toggleAbstract({{ pub.id }})">View</button>
-                <div id="abstract-{{ pub.id }}" class="abstract-popup hidden">
-                  {{ pub.abstract }}
-                  <button onclick="toggleAbstract({{ pub.id }})">Close</button>
-                </div>
-              {% else %}
-                N/A
-              {% endif %}
-            </td>
-            <td>
-              {% if pub.pdf_filename %}
-                <a href="{{ url_for('download_file', filename=pub.pdf_filename) }}" target="_blank">Download</a>
-              {% else %}
-                N/A
-              {% endif %}
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>No publications have been added yet. <a href="{{ url_for('upload_publication') }}">Upload one now.</a></p>
-  {% endif %}
+    <div class="form-group">
+      {{ form.title.label }}<br />
+      {{ form.title(size=80) }}
+      {% for err in form.title.errors %}
+        <span class="text-error">{{ err }}</span>
+      {% endfor %}
+    </div>
 
-  <script>
-    function toggleAbstract(id) {
-      const el = document.getElementById("abstract-" + id);
-      if (el.classList.contains("hidden")) {
-        el.classList.remove("hidden");
-      } else {
-        el.classList.add("hidden");
-      }
-    }
-  </script>
+    <div class="form-group">
+      {{ form.authors.label }}<br />
+      {{ form.authors(size=80, placeholder="e.g. Alice Smith, Bob Jones") }}
+      {% for err in form.authors.errors %}
+        <span class="text-error">{{ err }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.journal.label }}<br />
+      {{ form.journal(size=80) }}
+      {% for err in form.journal.errors %}
+        <span class="text-error">{{ err }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.year.label }}<br />
+      {{ form.year(min=1900, max=2100) }}
+      {% for err in form.year.errors %}
+        <span class="text-error">{{ err }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.doi.label }}<br />
+      {{ form.doi(size=80) }}
+      {% for err in form.doi.errors %}
+        <span class="text-error">{{ err }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.abstract.label }}<br />
+      {{ form.abstract(rows=5, cols=80) }}
+      {% for err in form.abstract.errors %}
+        <span class="text-error">{{ err }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.pdf_file.label }}<br />
+      {{ form.pdf_file() }}
+      {% for err in form.pdf_file.errors %}
+        <span class="text-error">{{ err }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.submit(class="btn-primary") }}
+    </div>
+  </form>
 {% endblock %}
