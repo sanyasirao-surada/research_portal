@@ -1,36 +1,9 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# Research Publications Portal
 
-# Virtual environment folders (if you create venv at repo root)
-venv/
-ENV/
-env/
+This is a simple Flask application that allows faculty members to:
+- Submit publication metadata (title, authors, journal, year, DOI, abstract).
+- Upload a PDF file (if available).
+- View a dynamic table of all publications.
 
-# SQLite database file
-publications.db
+## Project Structure
 
-# Uploads folder (PDFs go here at runtime)
-static/uploads/
-
-# Mac / Linux swap files
-*.swp
-*~
-
-# Python egg info
-*.egg-info
-dist/
-build/
-
-# VSCode settings (if you use VSCode)
-.vscode/
-
-# Logs
-*.log
-
-# IDE-specific metadata
-.idea/
-
-# Optional: if you create a “.env” for environment variables, ignore it
-.env
